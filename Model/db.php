@@ -14,6 +14,18 @@ class Database{
             echo $e->getmessage();
         }
     }
+    public function insert($fname, $lname, $birthdate, $email, $msg){
+        $sql = "INSERT INTO chat (firstname, lastname, birthdate, email, msg) VALUES
+        (:fname,:lname,:email,:phone)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['fname'=>$fname, 'lname'=>$lname, 'birthdate'=>$birthdate, 'email'=>$email,
+        'msg'=>$msg]);
+
+        return true;
+    }
+    public function read(){
+
+    }
 }
 
 $obj = new Database(); 
