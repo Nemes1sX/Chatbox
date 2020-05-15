@@ -24,10 +24,27 @@ class Database{
         return true;
     }
     public function read(){
-
+        $data = array();
+        $sql = "SELECT * FROM chat";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($result as $row){
+            $data[] = $row;
+        }
+        return $data;
     }
+    public function totalRows(){
+        $sql = "SELECT * FROM chat";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $t_rows = $stmt->rowCount();
+
+        return $t_rows;
+    }
+
 }
 
-$obj = new Database(); 
-
+$obj = new Database();
+echo $obj->totalRows(); 
 ?>
