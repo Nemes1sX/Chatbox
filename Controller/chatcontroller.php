@@ -1,6 +1,7 @@
 <?php
+include("chatbox\model\db.php");
+//require_once "db.php";
 
-require_once "Model/db.php";
 
 $db = new Database();
 
