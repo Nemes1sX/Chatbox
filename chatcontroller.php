@@ -4,7 +4,7 @@ require_once 'db.php';
 $db = new Database();
 ini_set('display_errors', 1);
 
-if(isset($_GET['action']) && $_GET['action'] == "view"){
+if(isset($_POST['action']) && $_POST['action'] == "view"){
     $output = '';
     $data = $db->read();
     if($db->totalRowCount()>0){
@@ -37,7 +37,7 @@ if(isset($_GET['action']) && $_GET['action'] == "view"){
         $db->insert($fname, $lname, $postdate, $birthdate, $email, $msg);
         else echo 'Klaida neužpildytas vienas iš privalomų laukelių arba blogai ivesti duomenis';    
  }
-
+        else  echo 'Neužpildyti laukeliai';
  }
 
 ?>

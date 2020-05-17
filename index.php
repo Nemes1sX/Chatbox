@@ -89,7 +89,7 @@
         function show(){
             $.ajax({
                 url: "chatcontroller.php",
-                type: "GET",
+                type: "POST",
                 data:  {action: "view"},
                 sucess: function(response){
                     console.log(response);

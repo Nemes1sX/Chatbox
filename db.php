@@ -16,7 +16,7 @@ class Database{
     }
     public function insert($fname, $lname, $postdate, $birthdate, $email, $msg){
         
-        $sql = "INSERT INTO chat (firstname, lastname, birthdate, email, msg) VALUES
+        $sql = "INSERT INTO chat (firstname, lastname, post, birthdate, email, msg) VALUES
         (:fname,:lname,:postdate,:birthdate,:email,:msg)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['fname'=>$fname, 'lname'=>$lname, 'post'=>$postdate, 'birthdate'=>$birthdate, 'email'=>$email,
