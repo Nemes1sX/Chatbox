@@ -22,19 +22,27 @@
             maxDate: "today"
         });*/
 
-        
+        show();        
         $('#submit-btn').on('click', function (e) { //Client side validation and ajax api function
             
-            var full_name = $('#fullname').val();
+            var fname = $('#fname').val();
+            var lname = $('#lname').val();
             var email = $('#email').val();
             var birthdate = $('#birthdate').val();
             var msg = $('#message').val();
             var regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ //regex pattern for email validation
             var regExn = /^[a-zA-Z\s]*$/; //Regex pattern for fullname validationn
             var validEmail = regEx.test(email); //Checking regex pattern  for email
-            var validFullname = regExn.test(full_name); //Checking regex pattern  for fullname
-            if(!validFullname || full_name == ''){ //Fullname client-side validationn
-                $('#fullname').after('<span class="error" style="color: red">Full name contains only letters or enter full name</span>'); //If validation fails, user will get a error text and input border appears in red
+            var validfname = regExn.test(fname); //Checking regex pattern  for firstname
+            var validlname = regExn.test(lname); //Checking regex pattern  for lastname
+            if(!validfname || fname == ''){ //Fullname client-side validationn
+                $('#fname').after('<span class="error" style="color: red">Full name contains only letters or enter full name</span>'); //If validation fails, user will get a error text and input border appears in red
+                $(".err label").css({"color": "#dd0000"});
+                $(".err input").css({"border": "1px solid #dd0000" });        
+                return false;
+            }
+            if(!validlname || lname == ''){ //Fullname client-side validationn
+                $('#lname').after('<span class="error" style="color: red">Full name contains only letters or enter full name</span>'); //If validation fails, user will get a error text and input border appears in red
                 $(".err label").css({"color": "#dd0000"});
                 $(".err input").css({"border": "1px solid #dd0000" });        
                 return false;
@@ -62,8 +70,8 @@
             $.ajax({
                 type: "POST",
                 url: "chatcontroller.php",
-                data: ('#chat').serialize()+"&action=insert",
-                cache: false,   
+                data: $('#chat').serialize()+"&action=insert",
+                //cache: false,   
                  success: function(result){
                     alert(result);
                     $('#chat').trigger('reset'); //Reset input form fields after affter succesfull AJAX request      
@@ -75,19 +83,24 @@
                 }
             }); 
                  
-
+             show();   
         });
-        show()
+     
         function show(){
             $.ajax({
                 url: "chatcontroller.php",
                 type: "GET",
                 data:  {action: "view"},
                 sucess: function(response){
-                    //console.log(response);
+                    console.log(response);
                     $('#msg').html(response);
+                },
+                error: function(response){
+                    alert(response);
+                    console.log('Error:', response);
                 }
-            });
+            }); 
+           
         }
      
     });
@@ -98,9 +111,13 @@
         <div id="wrapper">
             <h1>Jūsų žinutės</h1>
             <form id="chat" method="post">
-                <p class="fullname">
-                    <label for="fullname">Vardas, pavardė *</label><br/>
-                    <input id="fullname" type="text" name="fullname" value="" required/>
+                <p class="firstname">
+                    <label for="firstname">Vardas *</label><br/>
+                    <input id="firstname" type="text" name="fname" value="" required/>
+                </p>
+                <p class="lastname">
+                    <label for="lastname">Pavardė *</label><br/>
+                    <input id="lastname" type="text" name="lname" value="" required/>
                 </p>
                 <p class="birthdate">
                     <label for="birthdate">Gimimo data *</label><br/>
@@ -116,13 +133,13 @@
                 </p>
                 <p>
                     <span>* - privalomi laukai</span>
-                    <input type="submit" value="skelbti" id="submit-btn"/>
+                    <input type="submit" name="action" value="Skelbti" id="submit-btn"/>
                     <img class="load" src="img/ajax-loader.gif" alt="" hidden/>
                 </p>
             </form>
 
-            <div id="msg">
-                <ul>
+           
+                <ul id="msg">
                 <!--<li>
                     <strong>Šiuo metu žinučių nėra. Būk pirmas!</strong>
                 </li>            
@@ -147,7 +164,7 @@
                     Įkėlėme šeimos dienos akciją. Dėl papildomos medžiagos užtrukome šiek tiek ilgiau nei įprasta.
                 </li>-->
                 </ul>
-            </div>
+        
             <p id="pages">
                 <a href="#" title="atgal">atgal</a>
                 <a href="#" title="1">1</a>

@@ -43,6 +43,15 @@ class Database{
 
         return $t_rows;
     }
+    public function validation($fname, $lname, $email, $msg, $birthdate){
+        $birthdayp = "/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/"; //Regex pattern for birthday date format. User must provide yyyy-mm-dd date format
+        $namep = "/^[a-zA-Z\s]*$/"; //Regex pattern for fullname format. User must provide 'firstname lastname' format
+        if(!empty($msg) && !empty($fname) && preg_match($namep, $fname) && !empty($fname) && preg_match($namep, $fname) && 
+         preg_match($email, FILTER_VALIDATE_EMAIL) && $email =='-'  &&  !empty($birthday) && preg_match($birthdayp, $birthday) && validateDate($birthday, 'Y-m-d')) //Checking if validation is correct
+            return true;
+            else return false;
+     }
+    
 
 }
 
