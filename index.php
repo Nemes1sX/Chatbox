@@ -30,6 +30,11 @@
             var email = $('#email').val();
             var birthdate = $('#birthdate').val();
             var msg = $('#message').val();
+            var post = $('#post').val();
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var post  = date+' '+time;
             var regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ //regex pattern for email validation
             var regExn = /^[a-zA-Z\s]*$/; //Regex pattern for fullname validationn
             var validEmail = regEx.test(email); //Checking regex pattern  for email
@@ -65,21 +70,27 @@
                 $(".err input, .err textarea").css({"border": "1px solid #dd0000" });
                 return false;
             }
+            console.log(fname);
+            console.log(lname);
+            console.log(email);
+            console.log(birthdate);
+            console.log(msg);
             $('.load').show(); //A loading bar will appear, if vaildation runs succesfull
             $(':input').prop('disabled', true); //Makes input fields inactive before AJAX request      
             $.ajax({
                 type: "POST",
                 url: "chatcontroller.php",
                 data: $('#chat').serialize()+"&action=insert",
-                //cache: false,   
                  success: function(result){
                     alert(result);
                     $('#chat').trigger('reset'); //Reset input form fields after affter succesfull AJAX request      
                     $(':input').prop('disabled', false); //Makes input fields active affter succesfull AJAX request        
+                    $('.load').hide();
                 },
                  error: function(result){
                     alert(result);
                     console.log('Error:', data);
+                    $('.load').hide();
                 }
             }); 
                  
@@ -110,14 +121,15 @@
   
         <div id="wrapper">
             <h1>Jūsų žinutės</h1>
-            <form id="chat" method="post">
+            <form id="chat" method="post" action="">
+           <!--<input type="hidden" id="post" name="post">-->
                 <p class="firstname">
                     <label for="firstname">Vardas *</label><br/>
-                    <input id="firstname" type="text" name="fname" value="" required/>
+                    <input id="fname" type="text" name="fname" value="" required/>
                 </p>
                 <p class="lastname">
                     <label for="lastname">Pavardė *</label><br/>
-                    <input id="lastname" type="text" name="lname" value="" required/>
+                    <input id="lname" type="text" name="lname" value="" required/>
                 </p>
                 <p class="birthdate">
                     <label for="birthdate">Gimimo data *</label><br/>
@@ -133,7 +145,7 @@
                 </p>
                 <p>
                     <span>* - privalomi laukai</span>
-                    <input type="submit" name="action" value="Skelbti" id="submit-btn"/>
+                    <input type="submit" name="insert" value="Skelbti" id="submit-btn"/>
                     <img class="load" src="img/ajax-loader.gif" alt="" hidden/>
                 </p>
             </form>

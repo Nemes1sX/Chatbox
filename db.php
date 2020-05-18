@@ -9,6 +9,7 @@ class Database{
         try{
             $this->conn = new PDO($this->dsn, $this->user, $this->pass);
             echo "Welcome. Your connected to DB";
+            echo "/n";
         }
         catch(PDOException $e){
             echo $e->getmessage();
@@ -24,9 +25,9 @@ class Database{
 
         return true;
     }
-    public function read(){
+    public function read($this_page_first_result){
         $data = array();
-        $sql = "SELECT * FROM chat";
+        $sql = "SELECT * FROM chat ORDER BY post LIMIT'.$this_page_first_result.',5";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

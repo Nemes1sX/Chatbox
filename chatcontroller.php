@@ -5,8 +5,14 @@ $db = new Database();
 ini_set('display_errors', 1);
 
 if(isset($_POST['action']) && $_POST['action'] == "view"){
+    $this_page_first_result = ($page-1)*5;
+    if (!isset($_GET['page'])) {
+        $page = 1;
+      } else {
+        $page = $_GET['page'];
+      }
     $output = '';
-    $data = $db->read();
+    $data = $db->read($this_page_first_result);
     if($db->totalRowCount()>0){
         foreach($data as $row){
             $output.='<li>';
@@ -20,6 +26,9 @@ if(isset($_POST['action']) && $_POST['action'] == "view"){
             $output.='</li>';
         }   
         echo $output;
+        for ($page=1;$page<=$number_of_pages;$page++) {
+            echo '<a href="index.php?page=' . $page . '">' . $page . '</a> ';
+          }
     }
     else echo '<h1>No messages posted</h1>';
 }
@@ -27,17 +36,20 @@ if(isset($_POST['action']) && $_POST['action'] == "view"){
   if(isset($_POST['fname']) && isset($_POST['lname']) && isset($_POST['birthdate'])
   && isset($_POST['msg'])){
         $postdate = date("Y-m-d H:i"); 
-        $firstname = $_POST['fname'];  
-        $lname = $_POST['lname'];      
-        $birthdate = $_POST['birthdate'];
-        if(isset($_POST['email']))
-            $email = $_POST['email'];
-            else $email = '-';     
-    if($db->validation($fname, $lname, $email, $msg, $birthdate)) 
+        $fname = $_REQUEST['fname'];  
+        $lname = $_REQUEST['lname'];      
+        $birthdate = $_REQUEST['birthdate'];
+        $msg = $_REQUEST['msg'];
+        if(isset($_REQUEST['email']))
+            $email = $_REQUESTs['email'];
+            else $email = '-';    
+        echo 'Sucesss';     
+    if($db->validation($fname, $lname, $email, $msg, $birthdate))
         $db->insert($fname, $lname, $postdate, $birthdate, $email, $msg);
         else echo 'Klaida neužpildytas vienas iš privalomų laukelių arba blogai ivesti duomenis';    
+  }
+        else "Failed!";
  }
-        else  echo 'Neužpildyti laukeliai';
- }
+
 
 ?>
