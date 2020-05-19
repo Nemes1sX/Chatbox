@@ -98,19 +98,18 @@
         });
      
         function show(){
-            $.ajax({
+           $.ajax({
                 url: "chatcontroller.php",
                 type: "POST",
                 data:  {action: "view"},
-                sucess: function(response){
-                    console.log(response);
+                success: function(response){
                     $('#msg').html(response);
                 },
                 error: function(response){
                     alert(response);
                     console.log('Error:', response);
                 }
-            }); 
+            });
            
         }
      
@@ -149,10 +148,10 @@
                     <img class="load" src="img/ajax-loader.gif" alt="" hidden/>
                 </p>
             </form>
-
+                <div id="msg">
            
-                <ul id="msg">
-                <!--<li>
+               <!-- <ul id="msg">
+                <li>
                     <strong>Šiuo metu žinučių nėra. Būk pirmas!</strong>
                 </li>            
                 <li>
@@ -174,9 +173,9 @@
                 <li>
                     <span>2010 01 01 08:59</span> Vardas Pavardė, 26 m. <br/>
                     Įkėlėme šeimos dienos akciją. Dėl papildomos medžiagos užtrukome šiek tiek ilgiau nei įprasta.
-                </li>-->
-                </ul>
-        
+                </li>
+                </ul>-->
+            </div>
             <p id="pages">
                 <a href="#" title="atgal">atgal</a>
                 <a href="#" title="1">1</a>

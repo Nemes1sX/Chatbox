@@ -9,7 +9,7 @@ class Database{
         try{
             $this->conn = new PDO($this->dsn, $this->user, $this->pass);
             echo "Welcome. Your connected to DB";
-            echo "/n";
+            echo "<br/>";
         }
         catch(PDOException $e){
             echo $e->getmessage();
