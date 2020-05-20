@@ -9,21 +9,22 @@
 
         <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        
   <!--  Flatpickr  -->
         <script src="js/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script type="text/javascript">
     $(document).ready(function () {
 
        
-       /* $(".birthdate").flatpickr( {//jQuery calendar libary for proper date formating
+       $(".birthdate").flatpickr( {//jQuery calendar libary for proper date formating
             enableTime: false,
             dateFormat: "Y-m-d",
             maxDate: "today"
-        });*/
-
+        });
+        $('#action').val("Insert");  
         show();        
-        $('#submit-btn').on('click', function (e) { //Client side validation and ajax api function
+        $('#chat').on('submit', function (e) { //Client side validation and ajax api function
             
             var fname = $('#fname').val();
             var lname = $('#lname').val();
@@ -75,6 +76,8 @@
             console.log(email);
             console.log(birthdate);
             console.log(msg);
+            var chat = $('#chat').serialize();
+            console.log(chat);
             $('.load').show(); //A loading bar will appear, if vaildation runs succesfull
             $(':input').prop('disabled', true); //Makes input fields inactive before AJAX request      
             $.ajax({
@@ -144,7 +147,7 @@
                 </p>
                 <p>
                     <span>* - privalomi laukai</span>
-                    <input type="submit" name="insert" value="Skelbti" id="submit-btn"/>
+                    <input type="submit" name="insert" value="Skelbti" id="action"/>
                     <img class="load" src="img/ajax-loader.gif" alt="" hidden/>
                 </p>
             </form>

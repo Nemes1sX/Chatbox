@@ -5,15 +5,15 @@ $db = new Database();
 ini_set('display_errors', 1);
 
 if(isset($_POST['action']) && $_POST['action'] == "view"){
-    $this_page_first_result = ($page-1)*5;
     if (!isset($_GET['page'])) {
         $page = 1;
       } else {
         $page = $_GET['page'];
       }
+      $this_page_first_result = ($page-1)*5;
     $output = '';
     $data = $db->read($this_page_first_result);
-    if($db->totalRowCount()>0){
+    if($db->totalRows()>0){
         foreach($data as $row){
             $output.='<li>';
             $output .='<span>'.date_format(new DateTime($row['post']), 'Y m d H:i').'</span>';
@@ -24,8 +24,8 @@ if(isset($_POST['action']) && $_POST['action'] == "view"){
             $output.= $diff->format("%y").'m.';
             $output.= $row['msg'];
             $output.='</li>';
+                echo $output;
         }   
-        echo $output;
         for ($page=1;$page<=$number_of_pages;$page++) {
             echo '<a href="index.php?page=' . $page . '">' . $page . '</a> ';
           }
@@ -36,12 +36,12 @@ if(isset($_POST['action']) && $_POST['action'] == "view"){
   if(isset($_POST['fname']) && isset($_POST['lname']) && isset($_POST['birthdate'])
   && isset($_POST['msg'])){
         $postdate = date("Y-m-d H:i"); 
-        $fname = $_REQUEST['fname'];  
-        $lname = $_REQUEST['lname'];      
-        $birthdate = $_REQUEST['birthdate'];
-        $msg = $_REQUEST['msg'];
-        if(isset($_REQUEST['email']))
-            $email = $_REQUESTs['email'];
+        $fname = $_POST['fname'];  
+        $lname = $_POST['lname'];      
+        $birthdate = $_POST['birthdate'];
+        $msg = $_POST['msg'];
+        if(isset($_POST['email']))
+            $email = $_POST['email'];
             else $email = '-';    
         echo 'Sucesss';     
     if($db->validation($fname, $lname, $email, $msg, $birthdate))
