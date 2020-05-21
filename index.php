@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         
   <!--  Flatpickr  -->
-        <script src="js/jquery-3.5.1.min.js"></script>
+       <script src="js/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script type="text/javascript">
     $(document).ready(function () {
@@ -22,9 +22,8 @@
             dateFormat: "Y-m-d",
             maxDate: "today"
         });
-        $('#action').val("Insert");  
         show();        
-        $('#chat').on('submit', function (e) { //Client side validation and ajax api function
+        $('#action').click('submit', function (e) { //Client side validation and ajax api function
             
             var fname = $('#fname').val();
             var lname = $('#lname').val();
@@ -47,7 +46,7 @@
                 $(".err input").css({"border": "1px solid #dd0000" });        
                 return false;
             }
-            if(!validlname || lname == ''){ //Fullname client-side validationn
+            if(!validlname || lname == ''){ //Lasrname client-side validationn
                 $('#lname').after('<span class="error" style="color: red">Full name contains only letters or enter full name</span>'); //If validation fails, user will get a error text and input border appears in red
                 $(".err label").css({"color": "#dd0000"});
                 $(".err input").css({"border": "1px solid #dd0000" });        
@@ -83,16 +82,16 @@
             $.ajax({
                 type: "POST",
                 url: "chatcontroller.php",
-                data: $('#chat').serialize()+"&action=insert",
+                data:  chat+"&action=insert",
                  success: function(result){
                     alert(result);
                     $('#chat').trigger('reset'); //Reset input form fields after affter succesfull AJAX request      
                     $(':input').prop('disabled', false); //Makes input fields active affter succesfull AJAX request        
-                    $('.load').hide();
+                    $('.load').hide(); //Loading bar is hidden again after submission
                 },
                  error: function(result){
                     alert(result);
-                    console.log('Error:', data);
+                    console.log('Error:', result);
                     $('.load').hide();
                 }
             }); 
@@ -100,13 +99,13 @@
              show();   
         });
      
-        function show(){
+        function show(){ //Data fetch 
            $.ajax({
                 url: "chatcontroller.php",
                 type: "POST",
                 data:  {action: "view"},
                 success: function(response){
-                    $('#msg').html(response);
+                    $('#msg').html(response); //Print HTML code below the form
                 },
                 error: function(response){
                     alert(response);
@@ -123,7 +122,7 @@
   
         <div id="wrapper">
             <h1>Jūsų žinutės</h1>
-            <form id="chat" method="post" action="">
+            <form id="chat" method="post" action="chatcontroller.php">
            <!--<input type="hidden" id="post" name="post">-->
                 <p class="firstname">
                     <label for="firstname">Vardas *</label><br/>
