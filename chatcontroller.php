@@ -6,8 +6,7 @@ require_once 'db.php';
 
 
 $db = new Database();
-//ini_set('display_errors', 1);
-//$output= 'Hello world';
+
 
 //Data fetch
 if(isset($_POST['action']) && $_POST['action'] == "view"){ 
@@ -17,7 +16,7 @@ if(isset($_POST['action']) && $_POST['action'] == "view"){
         $page = $_GET['page'];
       }
       $this_page_first_result = ($page-1)*5;
-      $output = 'Ok';
+      $output = '';
    
     $data = $db->read($this_page_first_result); //Fetching data with page first result, preparing query for paging
     if($db->totalRows()>0){
